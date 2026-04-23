@@ -1,4 +1,5 @@
 Welcome to my Minecraft DonutsmpOptimizer Project!
+(ON TEST)
 
 🚀 What is this?
 A mod that improves Minecraft with new content, mechanics and performance tweaks.
