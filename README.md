@@ -15,4 +15,7 @@ Features
 - 3 more tweaks
 
 - 🧠 Notes
-Make sure you're using Minecraft 1.21.X 
+Make sure you're using Minecraft 1.21.X
+Also, this works better on Feather Client or Lunar Client
+
+Enjoy!
