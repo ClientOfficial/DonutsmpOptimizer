@@ -1,7 +1,7 @@
 Welcome to my Minecraft DonutsmpOptimizer Project!
 (ON TEST)
 
-🚀 What is this?
+What is this?
 A mod that improves Minecraft with new content, mechanics, and performance tweaks.
 
 ⚙️ How to install (Forge/Fabric)
@@ -27,6 +27,8 @@ https://www.youtube.com/watch?v=at1XKYzS_FE
 Open Tweaks menu with "TAB".
 Particle reduction option.
 3 additional tweaks.
+<img width="1039" height="689" alt="image" src="https://github.com/user-attachments/assets/7fcc4add-f337-4518-b09a-a3eb5d2580d2" />
+
 
 🧠 Notes
 Make sure you're using Minecraft 1.21.X.
