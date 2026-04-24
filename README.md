@@ -32,4 +32,8 @@ Particle reduction option.
 Make sure you're using Minecraft 1.21.X.
 Works best on Feather Client or Lunar Client.
 
+VIRUS TOTAL SCAN
+<img width="1816" height="1006" alt="image" src="https://github.com/user-attachments/assets/a4fe2bb1-9ccc-4e45-914a-47c49ffcde20" />
+
+
 Enjoy!
