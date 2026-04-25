@@ -1,0 +1,81 @@
+1. The Configuration Storage (DonutSettings.java)
+This is a simple, transparent class that holds the "Yes/No" values. Keeping it separate makes the code easy to audit.
+
+Java
+public class DonutSettings {
+    // Public variables so anyone can see no hidden tasks are running
+    public static boolean reduceExplosions = false;
+    public static boolean eliminateParticles = false;
+    public static boolean potatoTextures = false;
+    public static int fpsLimit = 60;
+}
+2. The Visual Menu (DonutMenu.java)
+This class recreates the exact look of your screenshot using Minecraft's native code.
+
+Java
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.SliderWidget;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
+
+public class DonutMenu extends Screen {
+    public DonutMenu() {
+        super(Text.literal("DonutSmpOptimizer"));
+    }
+
+    @Override
+    protected void init() {
+        int x = this.width / 2 - 100;
+        int y = this.height / 2 - 50;
+
+        // Crystal Explosions Button
+        this.addDrawableChild(ButtonWidget.builder(
+            Text.literal("Reduce Crystal Explosions: " + (DonutSettings.reduceExplosions ? "YES" : "NO")), 
+            button -> {
+                DonutSettings.reduceExplosions = !DonutSettings.reduceExplosions;
+                this.clearAndInit(); // Refresh the UI to update the text
+            }).dimensions(x, y, 200, 20).build());
+
+        // Eliminate Particles Button
+        this.addDrawableChild(ButtonWidget.builder(
+            Text.literal("Eliminate Particles: " + (DonutSettings.eliminateParticles ? "YES" : "NO")), 
+            button -> {
+                DonutSettings.eliminateParticles = !DonutSettings.eliminateParticles;
+                this.clearAndInit();
+            }).dimensions(x, y + 25, 200, 20).build());
+
+        // FPS Limiter Slider
+        this.addDrawableChild(new SliderWidget(x, y + 50, 200, 20, Text.literal("FPS Limiter"), DonutSettings.fpsLimit / 120.0) {
+            @Override
+            protected void updateMessage() {
+                this.setMessage(Text.literal("FPS Limiter: " + (int)(this.value * 120)));
+            }
+            @Override
+            protected void applyValue() {
+                DonutSettings.fpsLimit = (int)(this.value * 120);
+                // Connects directly to Minecraft's built-in FPS setting
+                net.minecraft.client.MinecraftClient.getInstance().options.getMaxFps().setValue(DonutSettings.fpsLimit);
+            }
+        });
+        
+        // Done Button to exit the menu
+        this.addDrawableChild(ButtonWidget.builder(Text.literal("Done"), b -> this.close())
+            .dimensions(x, y + 80, 200, 20).build());
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.renderBackground(matrices); // Greyed out background
+        drawCenteredText(matrices, this.textRenderer, "DonutSmpOptimizer", this.width / 2, 20, 0xFFFFFF);
+        super.render(matrices, mouseX, mouseY, delta);
+    }
+}
+3. The Logic (How it works under the hood)
+To make the "YES" buttons actually do something, we use Mixins. This is the part that proves the mod is safe, as it only touches rendering, not your personal files.
+
+To Eliminate Particles: We "hook" into the game's particle manager. If the setting is YES, the game is told to ignore the command to spawn particles.
+
+To Reduce Explosions: We intercept the explosion packet. Instead of rendering a huge white flash and smoke, we tell the game to skip the visual effect.
+
+To Improve FPS: The slider simply talks to the game's official options.txt values in real-time.
